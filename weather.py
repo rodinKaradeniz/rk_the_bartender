@@ -1,6 +1,7 @@
 import requests
 
-API_KEY = "abcdef"
+# This is not a real API key
+API_KEY = "abcde1234"
 
 # get coordinates by location info - format: city, state code, country code, limit (optional), api key
 API_URL_GEO = "http://api.openweathermap.org/geo/1.0/direct?q={},{},{}&limit={}&appid={}"
@@ -16,8 +17,8 @@ def geocode_query_api(city='Toronto', state="ON", country="CA"):
         lat, lon = data['lat'], data['lon']
         return lat, lon
 
-    except Exception as exc:
-        print(exc)
+    except Exception as e:
+        print(e)
 
 def weather_query_api(city='Toronto', state="ON", country="CA"):
     """submit the API query using variables for zip and API_KEY"""
@@ -28,10 +29,10 @@ def weather_query_api(city='Toronto', state="ON", country="CA"):
         location = data['name']
         weather = data['weather'][0]['description']
         temperature = data['main']['temp']
-        return f"Location: {location}, Weather: {weather}, Temperature: {temperature} Fahrenheit"
+        return f"Location: {location}, Weather: {weather}, Temperature: {temperature} degrees Fahrenheit"
 
-    except Exception as exc:
-        print(exc)
+    except Exception as e:
+        print(e)
 
 if __name__ == '__main__':
     print(geocode_query_api())

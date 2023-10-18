@@ -6,8 +6,8 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     # return render_template("index.html")
-    link = '<p><a href="weather/<zip>">Click here to get weather information</a></p>'
-    return 'Welcome!'
+    link = '<p><a href="/weather">Click here to get weather information</a></p>'
+    return 'Welcome!' + "\n" + link
 
 
 @app.route('/user/<name>')
@@ -21,18 +21,22 @@ def user(name):
 
     return personal + instruc
 
-@app.route('/weather/<zip>')
-def get_weather(zip):
-    # get the json file from the OpenWeather API
-    resp = weather_query_api(zip)
 
-    # construct a string using the json data items for temp and description
+@app.route('/weather')
+def get_weather(city='Toronto', state="ON", country="CA"):
+    """get the weather info from the OpenWeather API"""
+    resp = weather_query_api(city, state, country)
+
     try:
-        text = resp["name"] + " temperature is " + str(resp["main"]["temp"]) + " degrees Fahrenheit with " + resp["weather"][0]["description"] + "."
-    except:
-        text = "There was an error.<br>Did you include a valid U.S. zip code in the URL?"
-    return text
+        # get the weather info from the OpenWeather API
+        resp = weather_query_api(city, state, country)
+
+    except Exception as e:
+        print(e)
+
+    return resp
 
 if __name__ == '__main__':
+
     app.run(debug=True)
     # app.run(host='127.0.0.1', port=4999, debug=True)
