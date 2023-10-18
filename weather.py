@@ -1,7 +1,8 @@
 import requests
+import key_config
 
 # This is not a real API key
-API_KEY = "abcde1234"
+API_KEY = key_config.KEYS['api_key_openweather']
 
 # get coordinates by location info - format: city, state code, country code, limit (optional), api key
 API_URL_GEO = "http://api.openweathermap.org/geo/1.0/direct?q={},{},{}&limit={}&appid={}"

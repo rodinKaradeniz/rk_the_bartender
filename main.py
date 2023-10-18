@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from weather import weather_query_api
+from cocktails import cocktail_api
 
 app = Flask(__name__)
 
@@ -30,6 +31,18 @@ def get_weather(city='Toronto', state="ON", country="CA"):
     try:
         # get the weather info from the OpenWeather API
         resp = weather_query_api(city, state, country)
+
+    except Exception as e:
+        print(e)
+
+    return resp
+
+
+@app.route('/cocktail/<name>', method=['GET'])
+def get_cocktail(name):
+    """get cocktail info from the ninja API"""
+    try:
+        resp = cocktail_api(name)
 
     except Exception as e:
         print(e)
