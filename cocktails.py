@@ -1,6 +1,8 @@
 import requests
 import key_config
 
+API_KEY = key_config.KEYS["api_key_dev_cocktaildb"]
+
 # def cocktail_api(cocktail_name='bloody mary'):
 #     """submit the API query using a variable for the cocktail name and API_KEY"""
 
@@ -22,7 +24,7 @@ import key_config
 #         print("Error:", resp.status_code, resp.text)
 
 
-def get_cocktail(cocktail_name='sex on the beach', key=1):
+def get_cocktail(cocktail_name='sex on the beach', key=API_KEY):
     """submit the API query with cocktail name and api_key=1 to cocktaildb"""
 
     API_URL = "http://www.thecocktaildb.com/api/json/v1/{}/search.php?s={}"
@@ -42,7 +44,7 @@ def get_cocktail(cocktail_name='sex on the beach', key=1):
     return results[0]
 
 
-def get_ingredient(ingredient_name='vodka', key=1):
+def get_ingredient(ingredient_name='vodka', key=API_KEY):
     """submit the API query with ingredient name and api_key=1 to cocktaildb"""
 
     API_URL = "http://www.thecocktaildb.com/api/json/v1/{}/search.php?i={}"
@@ -62,7 +64,7 @@ def get_ingredient(ingredient_name='vodka', key=1):
     return results[0]
 
 
-def get_random_cocktail(key=1):
+def get_random_cocktail(key=API_KEY):
     """submit the API query with cocktail name and api_key=1 to cocktaildb"""
 
     API_URL = "www.thecocktaildb.com/api/json/v1/{}/random.php"
