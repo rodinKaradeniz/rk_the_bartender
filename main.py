@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from weather import weather_query_api
-from cocktails import cocktail_api
+from cocktails import *
 
 app = Flask(__name__)
 
@@ -40,17 +40,43 @@ def get_weather(city='Toronto', state="ON", country="CA"):
 
 @app.route('/cocktail/<name>', method=['GET'])
 def get_cocktail(name):
-    """get cocktail info from the ninja API"""
+    """get cocktail info from the cocktaildb API"""
     try:
-        resp = cocktail_api(name)
+        cocktail = api_get_cocktail(name)
 
     except Exception as e:
         print(e)
+        return None
 
-    return resp
+    return cocktail
+
+
+@app.route('/randomCocktail', method=['GET'])
+def get_random_cocktail():
+    """get a random cocktail info from the cocktaildb API"""
+    try:
+        cocktail = api_get_random_cocktail()
+
+    except Exception as e:
+        print(e)
+        return None
+
+    return cocktail
+
+
+@app.route('/ingredient/<name>', method=['GET'])
+def get_ingredient(name):
+    """get ingredient info from the cocktaildb API"""
+    try:
+        ingredient = api_get_ingredient(name)
+
+    except Exception as e:
+        print(e)
+        return None
+
+    return ingredient
 
 
 if __name__ == '__main__':
-
     app.run(debug=True)
     # app.run(host='127.0.0.1', port=4999, debug=True)
