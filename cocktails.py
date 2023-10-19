@@ -10,9 +10,15 @@ def cocktail_api(cocktail_name='bloody mary'):
     """submit the API query using a variable for the cocktail name and API_KEY"""
     resp = requests.get(API_URL.format(cocktail_name), headers={'X-Api-Key': API_KEY})
     if resp.status_code == requests.codes.ok:
-        print(resp.text)
+        cocktail_info = resp.json()
+        if len(cocktail_info) == 0:
+            raise Exception(f"Cocktail {cocktail_name} not found. Try a different \
+                            name or check your input for spelling errors.")
+
+        return cocktail_info[0]
+        
     else:
         print("Error:", resp.status_code, resp.text)
 
 if __name__ == '__main__':
-    print(cocktail_api())
+    print(cocktail_api("bloody mary"))
