@@ -11,18 +11,6 @@ def home():
     return 'Welcome!' + "\n" + link
 
 
-@app.route('/user/<name>')
-def user(name):
-    # the curly braces {} hold a variable; when below runs,
-    # the value will replace the braces and the variable name
-    personal = f'<h1>Hello, {name}!</h1>'
-
-    instruc = '<p>Change the name in the <em>browser address bar</em> \
-        and reload the page.</p>'
-
-    return personal + instruc
-
-
 @app.route('/weather')
 def get_weather(city='Toronto', state="ON", country="CA"):
     """get the weather info from the OpenWeather API"""
