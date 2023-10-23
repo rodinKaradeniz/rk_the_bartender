@@ -1,7 +1,7 @@
 # Main program that calls the functions to process the raw csv data into a SQLite database.
 
-from db.csv_utils import *
-from db.sql_utils import *
+from data_processing.csv_utils import *
+from data_processing.sql_utils import *
 import sqlite3
 
 
