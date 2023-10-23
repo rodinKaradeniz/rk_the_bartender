@@ -31,7 +31,7 @@ def refactor_cocktail_df(df: pd.DataFrame) -> pd.DataFrame:
 
     # Relabel columns except ingredients and measures
     relabel = {
-        'strDrink': 'name',
+        'strDrink': 'cocktail_name',
         'strAlcoholic': 'alcoholic',
         'strDrinkThumb': 'image_url',
         'strGlass': 'glass_type',
@@ -49,6 +49,15 @@ def refactor_cocktail_df(df: pd.DataFrame) -> pd.DataFrame:
         df = df.rename(columns = {f"strMeasure{i}": f"measure{i}"})
 
     return df
+
+
+def create_ingredients_to_cocktails(df: pd.DataFrame) -> pd.DataFrame:
+    ingredients_to_cocktails = {}
+
+    # TODO: for each row, add the ingredient-cocktail pair to the dictionary.
+    # key, value = ingredient, [cocktails]
+    def add_ingredient(row):
+        pass
 
 
 if __name__ == "__main__":
