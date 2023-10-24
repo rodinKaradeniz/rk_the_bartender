@@ -5,28 +5,6 @@ import key_config
 
 API_KEY = key_config.KEYS["api_key_dev_cocktaildb"]
 
-# Old Code for API Calls
-
-# def cocktail_api(cocktail_name='bloody mary'):
-#     """submit the API query using a variable for the cocktail name and API_KEY"""
-
-#     API_KEY = key_config.KEYS["api_key_ninjas"]
-
-#     API_URL = 'https://api.api-ninjas.com/v1/cocktail?name={}'
-
-#     resp = requests.get(API_URL.format(cocktail_name), headers={'X-Api-Key': API_KEY})
-
-#     if resp.status_code == requests.codes.ok:
-#         cocktail_info = resp.json()
-#         if len(cocktail_info) == 0:
-#             raise Exception(f"Cocktail {cocktail_name} not found. Try a different \
-#                             name or check your input for spelling errors.")
-
-#         return cocktail_info[0]
-        
-#     else:
-#         print("Error:", resp.status_code, resp.text)
-
 
 def api_get_cocktail(cocktail_name='sex on the beach', key=API_KEY):
     """submit the API query with cocktail name and api_key=1 to cocktaildb"""
@@ -86,9 +64,11 @@ def api_get_ingredient(ingredient_name='vodka', key=API_KEY):
     result = results[0]
 
     ingredient = {
-        'name': result["strIngredient"],
+        'name': result['strIngredient'],
         'description': result['strDescription']
     }
+
+    return ingredient
 
 
 def api_get_random_cocktail(key=API_KEY):
