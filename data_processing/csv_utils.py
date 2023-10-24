@@ -51,20 +51,28 @@ def refactor_cocktail_df(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def load_cocktails_to_ingredients(df: pd.DataFrame) -> pd.DataFrame:
+    pass
+
+
 def load_ingredients_to_cocktails(df: pd.DataFrame) -> pd.DataFrame:
-    ingredients_to_cocktails = {}
+    # TODO: think about a way to make this more efficient.
 
-    # TODO: for each row, add the ingredient-cocktail pair to the dictionary.
-    # key, value = ingredient, [cocktails]
-
-    df.apply(lambda row: row["Name"] + " " + str(row["Percentage"]), axis=1)
+    # key, value = ingredient, [cocktails with that ingredient]
+    ingredients_to_cocktails = {}  
     
-    def add_ingredient(row):
+    for index, row in df.iterrows():
         cocktail = row["cocktail_name"]
         for i in range(1, 16):
             ingredient = row[f"ingredient{i}"]
             if ingredient in ingredients_to_cocktails:
                 ingredients_to_cocktails[ingredient].append(cocktail)
+            else:
+                ingredients_to_cocktails[ingredient] = [cocktail]
+
+    # TODO: Save this as csv also, then add an if condition to the beginning
+    # that checks os.exists() for that csv
+    return ingredients_to_cocktails
 
 
 if __name__ == "__main__":

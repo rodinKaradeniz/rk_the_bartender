@@ -1,17 +1,17 @@
-from flask import Flask, render_template
+from flask import Flask
 from weather import weather_query_api
 from cocktails import *
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', method=['GET'])
 def home():
     # return render_template("index.html")
     link = '<p><a href="/weather">Click here to get weather information</a></p>'
     return 'Welcome!' + "\n" + link
 
 
-@app.route('/weather')
+@app.route('/weather', method=['GET'])
 def get_weather(city='Toronto', state="ON", country="CA"):
     """get the weather info from the OpenWeather API"""
     resp = weather_query_api(city, state, country)
