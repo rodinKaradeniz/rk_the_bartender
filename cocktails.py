@@ -1,4 +1,4 @@
-# This progarm makes the necessary API calls and processes the responses.
+# This program makes the necessary API calls and processes the responses.
 
 import requests
 import key_config
