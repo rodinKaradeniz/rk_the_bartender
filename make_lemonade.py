@@ -4,7 +4,7 @@
 # with the given ingredients.
 
 import pandas as pd
-from data_processing.csv_utils import load_ingredients_to_cocktails
+from data_processing.csv_utils import load_ingredient_to_cocktails
 
 
 def available_cocktails(ingredients):
@@ -12,7 +12,7 @@ def available_cocktails(ingredients):
     cocktails = pd.read_csv('db/csv/processed/cocktails.csv')
 
     # Get ingredients_to_cocktails
-    ingredients_to_cocktails = load_ingredients_to_cocktails(cocktails)
+    ingredients_to_cocktails = load_ingredient_to_cocktails(cocktails)
 
     # Score cocktails based on how many of the given ingredients they have
     cocktail_scores = {}

@@ -52,11 +52,11 @@ def refactor_cocktail_df(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def load_cocktails_to_ingredients(df: pd.DataFrame) -> pd.DataFrame:
+def load_cocktail_to_ingredients(df: pd.DataFrame) -> pd.DataFrame:
     pass
 
 
-def load_ingredients_to_cocktails(df: pd.DataFrame, update=False) -> pd.DataFrame:
+def load_ingredient_to_cocktails(df: pd.DataFrame, update=False) -> pd.DataFrame:
     # TODO: think about a way to make this and its helper more efficient.
     if os.exists("db/csv/processed/ingredient_to_cocktails.pkl") and not update:
         with open('ingredient_to_cocktails.pkl', 'rb') as fp:
