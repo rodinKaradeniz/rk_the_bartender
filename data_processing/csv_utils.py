@@ -1,5 +1,6 @@
 import pandas as pd
-
+import os
+import pickle
 
 def update_alcoholic_col(a):
     return a == "Alcoholic"
@@ -55,28 +56,35 @@ def load_cocktails_to_ingredients(df: pd.DataFrame) -> pd.DataFrame:
     pass
 
 
-def load_ingredients_to_cocktails(df: pd.DataFrame) -> pd.DataFrame:
-    # TODO: think about a way to make this more efficient.
+def load_ingredients_to_cocktails(df: pd.DataFrame, update=False) -> pd.DataFrame:
+    # TODO: think about a way to make this and its helper more efficient.
+    if os.exists("db/csv/processed/ingredient_to_cocktails.pkl") and not update:
+        with open('ingredient_to_cocktails.pkl', 'rb') as fp:
+            ingredient_to_cocktails = pickle.load(fp)
+            return ingredient_to_cocktails
+
 
     # key, value = ingredient, [cocktails with that ingredient]
-    ingredients_to_cocktails = {}  
+    ingredient_to_cocktails = {}  
     
     for index, row in df.iterrows():
         cocktail = row["cocktail_name"]
         for i in range(1, 16):
             ingredient = row[f"ingredient{i}"]
-            if ingredient in ingredients_to_cocktails:
-                ingredients_to_cocktails[ingredient].append(cocktail)
+            if ingredient in ingredient_to_cocktails:
+                ingredient_to_cocktails[ingredient].append(cocktail)
             else:
-                ingredients_to_cocktails[ingredient] = [cocktail]
+                ingredient_to_cocktails[ingredient] = [cocktail]
 
-    # TODO: Save this as csv also, then add an if condition to the beginning
-    # that checks os.exists() for that csv
+    # Save ingredient_to_cocktails with pickle
+    if update:
+        with open('ingredient_to_cocktails.pkl', 'wb') as fp:
+            pickle.dump(ingredient_to_cocktails, fp)
     
-    return ingredients_to_cocktails
+    return ingredient_to_cocktails
 
 
 if __name__ == "__main__":
-    data = pd.read_csv('db/raw/all_drinks.csv', index_col=0)
+    data = pd.read_csv('db/csv/raw/all_drinks.csv', index_col=0)
     new_data = refactor_cocktail_df(data)
-    new_data.to_csv('db/processed/cocktails.csv', index=True)
+    new_data.to_csv('db/csv/processed/cocktails.csv', index=True)
