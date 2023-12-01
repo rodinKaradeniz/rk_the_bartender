@@ -58,7 +58,7 @@ def load_cocktail_to_ingredients(df: pd.DataFrame) -> pd.DataFrame:
 
 def load_ingredient_to_cocktails(df: pd.DataFrame, update=False) -> pd.DataFrame:
     # TODO: think about a way to make this and its helper more efficient.
-    if os.exists("db/csv/processed/ingredient_to_cocktails.pkl") and not update:
+    if os.path.exists("db/csv/processed/ingredient_to_cocktails.pkl") and not update:
         with open('ingredient_to_cocktails.pkl', 'rb') as fp:
             ingredient_to_cocktails = pickle.load(fp)
             return ingredient_to_cocktails
