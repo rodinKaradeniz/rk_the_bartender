@@ -33,4 +33,9 @@ def available_cocktails(ingredients):
 
     
 if __name__ == "__main__":
-    pass
+    ingredients = [
+        "Vodka",
+        "Gin",
+    ]
+    recommendations = available_cocktails(ingredients)
+    print(recommendations)
