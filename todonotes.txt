@@ -1,4 +1,7 @@
 TODOs:
-- work on ingredients_to_coktails() in csv_utils.py
+- Add string_similarity.levenshtein_distance functionality to make_lemonade
 - Build a simple UI/frontend
 - Find a way to make ratings for the cocktails, maybe a survey? Or a prepopulated database?
+
+NOTES:
+- string_similarity line 4, can improve preprocessing
