@@ -11,7 +11,7 @@ def initialize_cocktails_db():
     c = conn.cursor()
 
     columns = [
-        "name TEXT",
+        "cocktail_name TEXT",
         "alcoholic TEXT",
         "image_url TEXT",
         "glass_type TEXT",
