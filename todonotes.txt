@@ -8,7 +8,10 @@ TODOs:
 - Frontend:
     - Find an icon for the header
     - Find an icon/picture for the navbar
+    - Implement and style json.result at index.html
 
 NOTES:
 - string_similarity line 4, can improve preprocessing
 - csv_utils.load_ingredients_to_cocktails - think about improving efficiency
+
+DONE:
