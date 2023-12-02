@@ -1,7 +1,9 @@
 TODOs:
+- Test modules: implement unit tests and learn how to trigger them with github actions
 - Add string_similarity.levenshtein_distance functionality to make_lemonade
 - Build a simple UI/frontend
 - Find a way to make ratings for the cocktails, maybe a survey? Or a prepopulated database?
 
 NOTES:
 - string_similarity line 4, can improve preprocessing
+- csv_utils.load_ingredients_to_cocktails - think about improving efficiency
