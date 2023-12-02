@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, render_template
 from weather import weather_query_api
 from cocktails import *
 
@@ -6,9 +6,9 @@ app = Flask(__name__)
 
 @app.route('/', method=['GET'])
 def home():
-    # return render_template("index.html")
-    link = '<p><a href="/weather">Click here to get weather information</a></p>'
-    return 'Welcome!' + "\n" + link
+    return render_template("index.html")
+    # link = '<p><a href="/weather">Click here to get weather information</a></p>'
+    # return 'Welcome!' + "\n" + link
 
 
 @app.route('/weather', method=['GET'])
