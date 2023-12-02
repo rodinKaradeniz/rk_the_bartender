@@ -55,7 +55,7 @@ def refactor_cocktail_df(df: pd.DataFrame) -> pd.DataFrame:
 
 def refactor_ingredient_name(ingredient: str) -> str:
     """
-    Helper function for load_ingredient_to_cocktails, removing whitespaces
+    Helper string manipulation function for removing whitespaces
     and transforming uppercase letters into lowercase letters for the ingredient name.
     """
     refactored_name = ingredient.lower()
@@ -63,7 +63,7 @@ def refactor_ingredient_name(ingredient: str) -> str:
     return refactored_name
 
 
-def load_ingredient_to_cocktails(df: pd.DataFrame, update=False) -> pd.DataFrame:
+def load_ingredient_to_cocktails(update=False) -> pd.DataFrame:
     """
     Creates a map from ingredients to cocktails the ingredient is used in.
     Saves the map as a pickle file for future usages, returns the map.
@@ -72,19 +72,23 @@ def load_ingredient_to_cocktails(df: pd.DataFrame, update=False) -> pd.DataFrame
         with open('ingredient_to_cocktails.pkl', 'rb') as fp:
             ingredient_to_cocktails = pickle.load(fp)
             return ingredient_to_cocktails
+        
+    # Load data
+    cocktails = pd.read_csv('db/csv/processed/cocktails.csv')
 
     # key, value = ingredient, [cocktails with that ingredient]
     ingredient_to_cocktails = {}  
     
-    for index, row in df.iterrows():
+    for index, row in cocktails.iterrows():
         cocktail = row["cocktail_name"]
         for i in range(1, 16):
             ingredient = row[f"ingredient{i}"]
-            refactored_ingredient = refactor_ingredient_name(ingredient)
-            if refactored_ingredient in ingredient_to_cocktails:
-                ingredient_to_cocktails[refactored_ingredient].append(cocktail)
-            else:
-                ingredient_to_cocktails[refactored_ingredient] = [cocktail]
+            if not pd.isna(ingredient):
+                refactored_ingredient = refactor_ingredient_name(ingredient)
+                if refactored_ingredient in ingredient_to_cocktails:
+                    ingredient_to_cocktails[refactored_ingredient].append(cocktail)
+                else:
+                    ingredient_to_cocktails[refactored_ingredient] = [cocktail]
 
     # Save ingredient_to_cocktails with pickle
     if update:

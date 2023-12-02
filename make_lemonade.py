@@ -4,20 +4,18 @@
 # with the given ingredients.
 
 import pandas as pd
-from data_processing.csv_utils import load_ingredient_to_cocktails
+from data_processing.csv_utils import load_ingredient_to_cocktails, refactor_ingredient_name
 
 
-def available_cocktails(ingredients):
-    # Load data
-    cocktails = pd.read_csv('db/csv/processed/cocktails.csv')
-
+def available_n_cocktails(ingredients, n=15):
     # Get ingredients_to_cocktails
-    ingredients_to_cocktails = load_ingredient_to_cocktails(cocktails)
+    ingredients_to_cocktails = load_ingredient_to_cocktails()
 
     # Score cocktails based on how many of the given ingredients they have
     cocktail_scores = {}
     for ingredient in ingredients:
-        for cocktail in ingredients_to_cocktails[ingredient]:
+        refactored_ingredient_name = refactor_ingredient_name(ingredient)
+        for cocktail in ingredients_to_cocktails[refactored_ingredient_name]:
             if cocktail in cocktail_scores:
                 cocktail_scores[cocktail] += 1
             else:
@@ -29,7 +27,8 @@ def available_cocktails(ingredients):
                                     reverse=True)
     
     # Return top cocktails with their scores
-    return [(i, cocktail_scores[i]) for i in sorted_cocktail_scores]
+    top_cocktails = [(i, cocktail_scores[i]) for i in sorted_cocktail_scores]
+    return top_cocktails[:n]
 
     
 if __name__ == "__main__":
@@ -37,5 +36,5 @@ if __name__ == "__main__":
         "Vodka",
         "Gin",
     ]
-    recommendations = available_cocktails(ingredients)
+    recommendations = available_n_cocktails(ingredients, n=10)
     print(recommendations)
