@@ -103,6 +103,6 @@ def api_get_random_cocktail(key=API_KEY):
 
 
 if __name__ == '__main__':
-    # print(api_get_cocktail())
+    print(api_get_cocktail(cocktail_name='espresso martini'))
     # print(api_get_ingredient())
-    print(api_get_random_cocktail())
+    # print(api_get_random_cocktail())

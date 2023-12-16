@@ -33,8 +33,7 @@ def available_n_cocktails(ingredients, n=15):
     
 if __name__ == "__main__":
     ingredients = [
-        "Vodka",
-        "Gin",
+        "kahlua",
     ]
     recommendations = available_n_cocktails(ingredients, n=10)
     print(recommendations)
