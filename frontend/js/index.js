@@ -1,35 +1,56 @@
-import { process } from '/env'
+const unsplashAccessKey = "V8-SX_WOI1p5713vnQDGTPRwUB8V8adNAdJJMxfPGfs"
 
+const formEl = document.querySelector("form")
+const inputEl = document.getElementById("search-input")
+const searchResults = document.querySelector(".search-results")
+const showMore = document.getElementById("show-more-button")
 
-const setupTextarea = document.getElementById('setup-textarea') 
-const setupInputContainer = document.getElementById('setup-input-container')
-const movieBossText = document.getElementById('movie-boss-text')
+let inputData = ""
+let page = 1
 
-const apiKey = process.env.OPENAI_API_KEY
-// const apiKey = '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'
-const url = 'https://api.openai.com/v1/completions'
+async function searchCocktail() {
+    inputData = inputEl.value;
+    const url = `/cocktail/<${inputData}>`
 
-document.getElementById("send-btn").addEventListener("click", () => {
-  // if (setupTextarea.value) {
-    setupInputContainer.innerHTML = `<img src="images/loading.svg" class="loading" id="loading">`
-    movieBossText.innerText = `Ok, just wait a second while my digital brain digests that...`
-  // }
-  fetchBotReply()
-})
+    console.log(url)
+    const response = await fetch(url)
+    console.log(response)
+    const data = await response.json()
+    const results = data.results;
+    console.log(results)
 
-function fetchBotReply(){
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`
-    },
-    body: JSON.stringify({
-      'model': 'text-davinci-003',
-      'prompt': 'Sound enthusiastic in five words or less.' 
-    })
-  }).then(response => response.json()).then(data => 
-  movieBossText.innerText = data.choices[0].text
-  )
+    // if (page === 1) {
+    //     searchResults.innerHTML = "";
+    // }
+
+    // results.map((result) => {
+    //     const imageWrapper = document.createElement("div");
+    //     imageWrapper.classList.add("search-result");
+    //     const image = document.createElement("img");
+    //     image.src = result.urls.small;
+    //     image.alt = result.alt_description;
+    //     const imageLink = document.createElement("a");
+    //     imageLink.href = result.links.html;
+    //     imageLink.target = "_blank";
+    //     imageLink.textContent = result.alt_description;
+
+    //     imageWrapper.appendChild(image);
+    //     imageWrapper.appendChild(imageLink);
+    //     searchResults.appendChild(imageWrapper);
+    // });
+
+    // page++;
+    // if (page > 1) {
+    //     showMore.style.display = "block";
+    // }
 }
 
+formEl.addEventListener("submit", (event) => {
+    event.preventDefault();
+    page = 1;
+    searchCocktail();
+})
+
+// showMore.addEventListener("click", (event) => {
+//     searchImages();
+// })

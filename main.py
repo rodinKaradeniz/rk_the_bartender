@@ -4,14 +4,14 @@ from cocktails import *
 
 app = Flask(__name__)
 
-@app.route('/', method=['GET'])
+@app.route('/', methods=['GET'])
 def home():
     return render_template("index.html")
-    # link = '<p><a href="/weather">Click here to get weather information</a></p>'
-    # return 'Welcome!' + "\n" + link
+    link = '<p><a href="/weather">Click here to get weather information</a></p>'
+    return 'Welcome!' + "\n" + link
 
 
-@app.route('/weather', method=['GET'])
+@app.route('/weather', methods=['GET'])
 def get_weather(city='Toronto', state="ON", country="CA"):
     """get the weather info from the OpenWeather API"""
     resp = weather_query_api(city, state, country)
@@ -26,7 +26,7 @@ def get_weather(city='Toronto', state="ON", country="CA"):
     return resp
 
 
-@app.route('/cocktail/<name>', method=['GET'])
+@app.route('/cocktail/<name>', methods=['GET'])
 def get_cocktail(name):
     """get cocktail info from the cocktaildb API"""
     try:
@@ -39,7 +39,7 @@ def get_cocktail(name):
     return cocktail
 
 
-@app.route('/randomCocktail', method=['GET'])
+@app.route('/randomCocktail', methods=['GET'])
 def get_random_cocktail():
     """get a random cocktail info from the cocktaildb API"""
     try:
@@ -52,7 +52,7 @@ def get_random_cocktail():
     return cocktail
 
 
-@app.route('/ingredient/<name>', method=['GET'])
+@app.route('/ingredient/<name>', methods=['GET'])
 def get_ingredient(name):
     """get ingredient info from the cocktaildb API"""
     try:
@@ -66,5 +66,6 @@ def get_ingredient(name):
 
 
 if __name__ == '__main__':
+    get_cocktail("margarita")
     app.run(debug=True)
     # app.run(host='127.0.0.1', port=4999, debug=True)
