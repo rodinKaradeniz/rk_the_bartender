@@ -4,11 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RK's Bar</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- <link rel="stylesheet" href="../css/style.css"> -->
+    <link rel="stylesheet" href="../css/weather.css">
+    
 </head>
 <body>
     <h1>RK's Bar</h1>
-    <form action="">
+
+    <div class="weather-container">
+        <div class="weather-search-box">
+            <i class="fa-solid fa-location-dot"></i>
+            <input type="text" id="search-input" placeholder="Enter your location">
+            <button class="fa-solid fa-magnifying-glass"></button>
+        </div>
+    </div>
+
+    <div class="weather-not-found">
+        <img src="">
+        <p>Invalid location</p>
+    </div>
+
+    <div class="weather-box">
+        <p class="weather-temp"></p>
+        <p class="weather-desc"></p>
+    </div>
+
+    <div class="weather-details">
+        <div class="weather-humidity">
+            <i class="fa-solid fa-water"></i>
+            <div class="text">
+                <span></span>
+                <p>Humidity</p>
+            </div>
+        </div>
+        <div class="weather-wind">
+            <i class="fa-solid fa-wind"></i>
+            <div class="text">
+                <span></span>
+                <p>Wind Speed</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- <form action="">
         <input type="text" id="search-input" placeholder="Search for any cocktail">
         <button id="search-button">Search cocktail</button>
     </form>
@@ -21,7 +59,9 @@
         </div>
     </div>
 
-    <button id="show-more-button">Show More</button>
-    <script src="../js/index.js"></script>
+    <button id="show-more-button">Show More</button> -->
+    <script src="https://kit.fontawesome.com/1bf89e6351.js" crossorigin="anonymous"></script>
+    <!-- <script src="../js/index.js"></script> -->
+    <script src="../js/weather.js"></script>
 </body>
 </html>
