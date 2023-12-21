@@ -1,4 +1,6 @@
 TODOs:
+- Convert key_config into JSON and use it in both front and backend.
+
 - Backend:
     - Test modules: implement unit tests and learn how to trigger them with github actions
     - Add string_similarity.levenshtein_distance functionality to make_lemonade
