@@ -1,7 +1,9 @@
 import requests
-import key_config
+import json
 
-API_KEY = key_config.KEYS['api_key_openweather']
+data = json.load(open("key_config.json"))
+
+API_KEY = data["KEYS"]['api_key_openweather']
 
 # get coordinates by location info - format: city, state code, country code, limit (optional), api key
 API_URL_GEO = "http://api.openweathermap.org/geo/1.0/direct?q={},{},{}&limit={}&appid={}"
