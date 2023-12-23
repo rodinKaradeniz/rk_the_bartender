@@ -4,7 +4,7 @@ const searchInput = document.getElementById("recipe-search-input");
 const searchContainer = document.querySelector(".recipe-search-box");
 
 // CocktailAPI
-const apiUrl = "www.thecocktaildb.com/api/json/v1/1/search.php?s=";
+const apiUrl = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=";
 
 // Event listeners for search and input (when click search or press "enter")
 searchBtn.addEventListener("click", searchCocktail);
@@ -37,9 +37,13 @@ function searchCocktail() {
                 <div class="recipe-details">
                     <h2>${cocktail.strDrink}</h2>
                 </div>
-                <img src=${cocktail.strDrinkThumb} alt=${cocktail.strDrink} />
+                <img
+                    id="recipe-img"
+                    src=${cocktail.strDrinkThumb}
+                    alt=${cocktail.strDrink} />
                 <div id="recipe-glass">
-                    <h3>Glass:${cocktail.strGlass}</h3>
+                    <h3>Glass:</h3>
+                    <h4>${cocktail.strGlass}<h4>
                 </div>
                 <div id="recipe-ingredients-container">
                     <h3>Ingredients:</h3>
@@ -47,7 +51,7 @@ function searchCocktail() {
                 </div>
                 <div id="recipe">
                     <button id="hide-recipe">X</button>
-                    <pre id=instructions">${cocktail.strInstructions}</pre>
+                    <pre id=recipe-instructions">${cocktail.strInstructions}</pre>
                 </div>
                 <button id="show-recipe">View Recipe</button>
             `;
@@ -69,14 +73,26 @@ function searchCocktail() {
         });
 }
 
-function getIngredients() {
-    pass
+function getIngredients(cocktail) {
+    let ingreHtml = "";
+    for (let i = 1; i < 21; i++) {
+        const ingredient = cocktail[`strIngredient${i}`];
+        if (ingredient) {
+            const measure = cocktail[`strMeasure${i}`];
+            ingreHtml += `<li>${measure} ${ingredient}</li>`;
+        } else {
+            break;
+        }
+    }
+    return ingreHtml;
 }
 
 function hideRecipe() {
-    pass
+    const recipe = document.getElementById("recipe");
+    recipe.style.display = "none";
 }
 
 function showRecipe() {
-    pass
+    const recipe = document.getElementById("recipe");
+    recipe.style.display = "block";
 }
