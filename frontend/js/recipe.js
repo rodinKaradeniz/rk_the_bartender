@@ -54,6 +54,11 @@ function searchCocktail() {
                     <pre id=recipe-instructions">${cocktail.strInstructions}</pre>
                 </div>
                 <button id="show-recipe">View Recipe</button>
+            
+                <div class="recipe-search-box">
+                    <input type="text" id="another-cocktail" placeholder="Search Another Cocktail...">
+                <button id="another-cocktail-search-button">Search</button>
+            </div>
             `;
             resultContainer.innerHTML = recipeHtml;
 
@@ -62,6 +67,17 @@ function searchCocktail() {
 
             const showRecipeBtn = document.getElementById("show-recipe");
             showRecipeBtn.addEventListener("click", showRecipe);
+
+            const nextSearchInput = document.getElementById("another-cocktail");
+            nextSearchInput.addEventListener("keydown", function (e) {
+                if (e.keyCode === 13) {
+                    e.preventDefault();
+                    searchCocktail();
+                }
+            });
+
+            const searchAnotherCocktailBtn = document.getElementById("another-cocktail-search-button");
+            searchAnotherCocktailBtn.addEventListener("click", searchCocktail);
 
             searchContainer.style.opacity = '0';
             searchContainer.style.display = 'none';
@@ -95,4 +111,16 @@ function hideRecipe() {
 function showRecipe() {
     const recipe = document.getElementById("recipe");
     recipe.style.display = "block";
+}
+
+function resetContainer() {
+    recipeHtml = `
+        <div class="recipe-search-box">
+            <input type="text" id="recipe-search-input" placeholder="Enter cocktail...">
+            <button id="recipe-search-button">Search</button>
+        </div>
+        <div id="recipe-result"></div>
+    `;
+
+    resultContainer.innerHTML += recipeHtml;
 }

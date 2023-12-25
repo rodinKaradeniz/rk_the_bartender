@@ -1,3 +1,10 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins';
+}
+
 .recipe-section {
     height: 100vh;
     background: linear-gradient(#1c1917 50%, #ffb92a 50%);
@@ -65,7 +72,8 @@
     font-size: 15px;
     position: relative;
     left: 76%;
-    padding:L 8px 12px;
+    padding: 8px 12px;
+    padding-bottom: 10px;
     background-color: #ffb92a;
     border: none;
     top: 24px;
@@ -134,6 +142,7 @@
     color: #ccc;
     font-size: 15px;
     font-weight: 100;
+    padding: 10px;
 }
 
 @media screen and (max-width: 500px) {
