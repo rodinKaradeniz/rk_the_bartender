@@ -1,9 +1,10 @@
 # This program makes the necessary API calls and processes the responses.
 
 import requests
-import key_config
+import json
 
-API_KEY = key_config.KEYS["api_key_dev_cocktaildb"]
+data = json.load(open("key_config.json"))
+API_KEY = data["KEYS"]["api_key_dev_cocktaildb"]
 
 
 def api_get_cocktail(cocktail_name='sex on the beach', key=API_KEY):
