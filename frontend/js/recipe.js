@@ -15,6 +15,8 @@ searchInput.addEventListener("keydown", function (e) {
     }
 });
 
+fetch("http://127.0.0.1:5000/test").then((response) => response.json()).then((data) => { console.log(data) });
+
 // handle cocktail search
 function searchCocktail() {
     const userInput = searchInput.value.trim();
@@ -49,16 +51,19 @@ function searchCocktail() {
                     <h3>Ingredients:</h3>
                     <ul>${ingredients}</ul>
                 </div>
+                <div id="recipe-str">
+                    <pre id=recipe-instructions">${cocktail.strInstructions}</pre>
+                </div>
                 <div id="recipe">
                     <button id="hide-recipe">X</button>
                     <pre id=recipe-instructions">${cocktail.strInstructions}</pre>
                 </div>
-                <button id="show-recipe">View Recipe</button>
-            
+                    <button id="show-recipe">View Recipe</button>
+                </div>
                 <div class="recipe-search-box">
                     <input type="text" id="another-cocktail" placeholder="Search Another Cocktail...">
                 <button id="another-cocktail-search-button">Search</button>
-            </div>
+                </div>
             `;
             resultContainer.innerHTML = recipeHtml;
 

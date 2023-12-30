@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from weather import weather_query_api
 from cocktails import *
 
@@ -6,9 +6,19 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
-    return render_template("index.html")
+    # return render_template("index.html")
     link = '<p><a href="/weather">Click here to get weather information</a></p>'
     return 'Welcome!' + "\n" + link
+
+
+@app.route('/test', methods=['GET'])
+def text_flask():
+    # response = {
+    #     "id": 1,
+    #     "name": "rodin",
+    #     "age": 25
+    # }
+    return jsonify(api_get_cocktail(cocktail_name='espresso martini'))
 
 
 @app.route('/weather', methods=['GET'])
