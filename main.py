@@ -1,8 +1,56 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, make_response
 from weather import weather_query_api
 from cocktails import *
+from functools import wraps
+import json
+import jwt
+import datetime
 
 app = Flask(__name__)
+
+data = json.load(open("key_config.json"))
+JWT_KEY = data["KEYS"]['jwt_key']
+
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = request.args.get('token')
+        print(token)
+        if not token:
+            return jsonify({'message' : 'Token is missing'}), 403
+
+        try:
+            data = jwt.decode(token, JWT_KEY, algorithms=['HS512', 'HS256'])
+        except Exception as inst:
+            print(inst)
+            return jsonify({'message' : 'Token is invalid'}), 403
+
+        return f(*args, **kwargs)
+    
+    return decorated
+
+
+@app.route('/unprotected')
+def unprotected():
+    return jsonify({'message' : 'Anyone can view this'})
+
+
+@app.route('/protected')
+@token_required
+def protected():
+    return jsonify({'message' : 'Only for users with valid tokens'})
+
+
+@app.route('/login')
+def login():
+    auth = request.authorization
+
+    if auth and auth.password == 'password':
+        # Logged in correctly, generate the token, active for 30 minutes
+        token = jwt.encode({'user' : auth.username, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=1)}, JWT_KEY)
+        return jsonify({'token' : token})
+
+    return make_response('Could not verify', 401, { 'WWW-Authenticate' : 'Basic Realm="Login Required"'})
 
 @app.route('/', methods=['GET'])
 def home():
@@ -76,6 +124,6 @@ def get_ingredient(name):
 
 
 if __name__ == '__main__':
-    get_cocktail("margarita")
     app.run(debug=True)
+    # get_cocktail("margarita")
     # app.run(host='127.0.0.1', port=4999, debug=True)
