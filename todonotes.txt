@@ -1,7 +1,6 @@
 TODOs:
-- Convert key_config into JSON and use it in both front and backend.
-
 - Backend:
+    - Authentication: See if you can implement third party authentication servers, like google, etc.
     - Test modules: implement unit tests and learn how to trigger them with github actions
     - Add string_similarity.levenshtein_distance functionality to make_lemonade
     - Build a simple UI/frontend
