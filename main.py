@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, jsonify, make_response
+from werkzeug.security import generate_password_hash, check_password_hash
 from weather import weather_query_api
 from cocktails import *
 from functools import wraps
@@ -41,16 +42,28 @@ def protected():
     return jsonify({'message' : 'Only for users with valid tokens'})
 
 
-@app.route('/login')
+# Dummy user database for illustration purposes
+users = {
+    'john_doe': generate_password_hash('secure_password'),
+    'rodin_k': generate_password_hash('password')
+}
+
+@app.route('/login', methods=['POST'])
 def login():
     auth = request.authorization
+    username = auth.username
+    password = auth.password
 
-    if auth and auth.password == 'password':
-        # Logged in correctly, generate the token, active for 30 minutes
-        token = jwt.encode({'user' : auth.username, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=1)}, JWT_KEY)
-        return jsonify({'token' : token})
-
-    return make_response('Could not verify', 401, { 'WWW-Authenticate' : 'Basic Realm="Login Required"'})
+    if username in users:
+        if check_password_hash(users[username], password):
+            # Logged in correctly, generate the token, active for 30 minutes
+            token = jwt.encode({'user' : auth.username, 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=1)}, JWT_KEY)
+            return jsonify({'token' : token, 'message' : 'Login successful'})
+        else:
+            return jsonify({'message' : 'Password is invalid'}), 401
+    else:
+        # return make_response('Could not verify', 401, { 'WWW-Authenticate' : 'Basic Realm="Login Required"'})
+        return jsonify({'message' : 'Username not found'}), 401
 
 @app.route('/', methods=['GET'])
 def home():
