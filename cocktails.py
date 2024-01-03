@@ -20,6 +20,7 @@ def api_get_cocktail(cocktail_name='sex on the beach', key=API_KEY):
     results = resp.json()["drinks"]
     if results == []:
         raise Exception("Drink not found. Check input for any spelling errors.")
+    
     elif len(results) > 1:
         print(f"Multiple results have been found for \'{cocktail_name}\'")
         print("If this is not the result you are looking for, try to give a more specific input.")

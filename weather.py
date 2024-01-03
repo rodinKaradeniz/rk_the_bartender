@@ -5,36 +5,26 @@ data = json.load(open("key_config.json"))
 API_KEY = data["KEYS"]['api_key_openweather']
 
 # get coordinates by location info - format: city, state code, country code, limit (optional), api key
-API_URL_GEO = "http://api.openweathermap.org/geo/1.0/direct?q={},{},{}&limit={}&appid={}"
+API_URL_GEO = "http://api.openweathermap.org/geo/1.0/reverse?lat={}&lon={}&limit=1&appid={}"
 
 # get weather by coordinates - format: latitude, longitude, api key
-API_URL_WEATHER = 'https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid={}'
+API_URL_WEATHER = "https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid={}&units=metric"
 
-def geocode_query_api(city='Toronto', state="ON", country="CA"):
-    """submit the API query using variables for the location info and API_KEY"""
+
+def api_get_weather(lat, lon):
     try:
-        # print(API_URL.format(zip, API_KEY))
-        data = requests.get(API_URL_GEO.format(city, state, country, "", API_KEY)).json()[0]
-        lat, lon = data['lat'], data['lon']
-        return lat, lon
-
-    except Exception as e:
-        print(e)
-
-def weather_query_api(city='Toronto', state="ON", country="CA"):
-    """submit the API query using variables for zip and API_KEY"""
-    try:
-        # print(API_URL.format(zip, API_KEY))
-        lat, lon = geocode_query_api(city, state, country)
-        data = requests.get(API_URL_WEATHER.format(lat, lon, API_KEY)).json()
-        location = data['name']
-        weather = data['weather'][0]['description']
-        temperature = data['main']['temp']
-        return f"Location: {location}, Weather: {weather}, Temperature: {temperature} degrees Fahrenheit"
+        weather_data = requests.get(API_URL_WEATHER.format(lat, lon, API_KEY)).json()
+        loc_data = requests.get(API_URL_GEO.format(lat, lon, API_KEY)).json()
+        weather_info = {
+            'city' : loc_data[0]['name'],
+            'country': loc_data[0]['country'],
+            'weather' : weather_data['weather'][0]['main'],
+            'temperature' : str(round(weather_data['main']['temp'])) + '°C'
+        }
+        return weather_info
 
     except Exception as e:
         print(e)
 
 if __name__ == '__main__':
-    print(geocode_query_api())
-    print(weather_query_api())
+    print(api_get_weather(51.5098, -0.1180))
