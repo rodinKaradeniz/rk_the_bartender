@@ -50,6 +50,14 @@ def refactor_cocktail_df(df: pd.DataFrame) -> pd.DataFrame:
     for i in range(1, 16):
         df = df.rename(columns = {f"strMeasure{i}": f"measure{i}"})
 
+    # Concatenate ingredients into a new column for content-based recommendation
+    ingredient_columns = [f"ingredient{i}" for i in range(1,16)]
+
+    df['ingredients'] = df[ingredient_columns].values.tolist()
+
+    # Remove NaN values from the ingredients column
+    df['ingredients'] = df['ingredients'].apply(lambda x: [refactor_ingredient_name(value) for value in x if pd.notna(value)])
+
     return df
 
 
@@ -59,7 +67,7 @@ def refactor_ingredient_name(ingredient: str) -> str:
     and transforming uppercase letters into lowercase letters for the ingredient name.
     """
     refactored_name = ingredient.lower()
-    refactored_name = re.sub(r"\s+", "", refactored_name)
+    refactored_name = re.sub(r'[^a-z]', '', refactored_name)
     return refactored_name
 
 
