@@ -1,63 +1,45 @@
-import os.path
-import sqlite3
-import pandas as pd
-
-def initialize_cocktails_db():
-    # TODO: test this
-
-    db_name = "db/sql/cocktails.db"
-
-    conn = sqlite3.connect(db_name) 
-    c = conn.cursor()
-
-    columns = [
-        "cocktail_name TEXT",
-        "alcoholic TEXT",
-        "image_url TEXT",
-        "glass_type TEXT",
-        "recipe TEXT"
-    ] + [f"ingredient{i}" for i in range(1,16)] + [f"measure{i}" for i in range(1,16)]
-
-    create_table_cmd = f"CREATE TABLE IF NOT EXISTS cocktail ({','.join(columns)})"
-    c.execute(create_table_cmd)
-                        
-    conn.commit()
+import psycopg2
+import json
 
 
-def upload_cocktails_db(df):
-    # TODO: test this
-
-    # Check if database exists, then connect
-    db_name = "db/sql/cocktails.db"
-    if os.path.isfile(db_name):
-        conn = sqlite3.connect(db_name)
-    else:
-        raise Exception("Database does not exist")
-
-    # Upload dataframe to sql
-    df.to_sql(db_name, con=conn, schema='cocktail', index=True, if_exists='append')
+# Load database info
+data = json.load(open("key_config.json"))
+database_name = data['DATABASE']['database_name']
+user = data['DATABASE']['username']
+password = data['DATABASE']['password']
+host = "localhost"
 
 
-def load_cocktails_db(ticker: str, debug=False):
-    # TODO: Fix and finish this
+# Function to execute SQL queries from a file
+def execute_query_from_file(query_file_path):
+    try:
+        # Connect to the PostgreSQL database
+        conn = psycopg2.connect(
+            dbname=database_name,
+            user=user,
+            password=password,
+            host=host
+        )
 
-    db_name = "db/sql/cocktails.db"
-    if os.path.isfile(db_name):
-        conn = sqlite3.connect(db_name)
+        # Create a cursor to interact with the database
+        cursor = conn.cursor()
 
-        sql_query = pd.read_sql_query ('''
-                               SELECT
-                               *
-                               FROM products
-                               ''', conn)
+        # Execute the query from the file
+        with open(query_file_path, 'r') as file:
+            query = file.read()
+            cursor.execute(query)
 
-        df = pd.DataFrame(sql_query, columns = ['product_id', 'product_name', 'price'])
-        print(df)
+        # Fetch and print the result (if applicable)
+        result = cursor.fetchall()
+        print(result)
 
-    else:
-        raise Exception("Database does not exist")
-    
+        # Commit the changes (if any)
+        conn.commit()
 
-if __name__ == "__main__":
-    # TODO: Test functions, create DB, complete load_db function
-    print(1)
+    except Exception as e:
+        print(f"Error: {e}")
+
+    finally:
+        # Close the cursor and connection
+        cursor.close()
+        conn.close()
