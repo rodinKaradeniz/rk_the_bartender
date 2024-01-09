@@ -1,9 +1,10 @@
-CREATE TABLE [IF NOT EXISTS] cocktail (
+CREATE TABLE IF NOT EXISTS cocktail (
     cocktail_name TEXT PRIMARY KEY,
     alcoholic BOOLEAN NOT NULL,
     image_url TEXT,
     glass_type TEXT,
     recipe TEXT,
+    ingredients TEXT[],
     ingredient1 TEXT,
     ingredient2 TEXT,
     ingredient3 TEXT,
@@ -34,4 +35,4 @@ CREATE TABLE [IF NOT EXISTS] cocktail (
     measure13 TEXT,
     measure14 TEXT,
     measure15 TEXT
-) [WITHOUT ROWID];
+);
