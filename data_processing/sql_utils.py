@@ -11,7 +11,7 @@ host = "localhost"
 
 
 # Function to execute SQL queries from a file
-def execute_query_from_file(query_file_path):
+def execute_query_from_file(query_file_path, df=None):
     try:
         # Connect to the PostgreSQL database
         conn = psycopg2.connect(
@@ -27,6 +27,12 @@ def execute_query_from_file(query_file_path):
         # Execute the query from the file
         with open(query_file_path, 'r') as file:
             query = file.read()
+
+        if df:
+            for index, row in df.iterrows():
+                # Execute the insertion query for the current row
+                cursor.execute(query, dict(row))
+        else:
             cursor.execute(query)
 
         # Fetch and print the result (if applicable)
