@@ -1,5 +1,4 @@
 # When life gives you lemons, you gotta make some lemonade.
-
 # This program contains functionality for suggesting which cocktails can be made
 # with the given ingredients.
 
@@ -34,6 +33,7 @@ def available_n_cocktails(ingredients, n=15):
 if __name__ == "__main__":
     ingredients = [
         "kahlua",
+        "vodka"
     ]
     recommendations = available_n_cocktails(ingredients, n=10)
     print(recommendations)
